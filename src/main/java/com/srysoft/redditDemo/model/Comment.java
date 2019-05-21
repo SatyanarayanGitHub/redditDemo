@@ -3,6 +3,7 @@ package com.srysoft.redditDemo.model;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,8 +20,11 @@ public class Comment {
 
 	@NonNull
 	private String body;
-
-	// user
-	// link
-
+	
+	/**
+	 * Many To One - Many comments connect one Link
+	 */
+	@ManyToOne
+	private Link link;
+	
 }
