@@ -18,7 +18,7 @@ public class Link {
 	private Long id;
 
 	@NonNull
-	private String titles;
+	private String title;
 
 	@NonNull
 	private String url;
