@@ -11,7 +11,7 @@ import lombok.NonNull;
 @Data
 @NoArgsConstructor
 @Entity
-public class Vote {
+public class Vote extends Auditable {
 
 	@Id
 	@GeneratedValue

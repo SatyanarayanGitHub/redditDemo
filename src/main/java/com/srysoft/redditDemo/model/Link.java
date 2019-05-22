@@ -15,7 +15,7 @@ import lombok.NonNull;
 @Data
 @NoArgsConstructor
 @Entity
-public class Link {
+public class Link extends Auditable {
 
 	@Id
 	@GeneratedValue
