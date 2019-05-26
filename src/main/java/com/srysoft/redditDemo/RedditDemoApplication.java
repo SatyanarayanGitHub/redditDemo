@@ -22,7 +22,7 @@ public class RedditDemoApplication {
 		SpringApplication.run(RedditDemoApplication.class, args);
 	}
 
-	//@Bean
+	@Bean
 	CommandLineRunner runner(LinkRepository linkRepository, CommentRepository commentRepository) {
 		return args -> {
 			log.info("<<-----------Command Line Runner ----------->>");
