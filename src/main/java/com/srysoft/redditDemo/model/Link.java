@@ -8,6 +8,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
@@ -35,6 +37,7 @@ public class Link extends Auditable {
 	/**
 	 *  one to many - one link has many comments
 	 */
+	@JsonIgnore
 	@OneToMany(mappedBy = "link")
 	private List<Comment> comments = new ArrayList<Comment>();
 	
