@@ -14,5 +14,11 @@ public class HomeController {
 		model.addAttribute("message", "Hello, Spring Boot Application with View Template Engine- Thymeleaf");
 		return "home";
 	}
+	
+	@GetMapping(value="/foo")
+	public String foo(Model model) {
+		model.addAttribute("pageTitle", "Foo Page");
+		return "foo";
+	}
 
 }
