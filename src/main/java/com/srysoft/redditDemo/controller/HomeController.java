@@ -12,7 +12,8 @@ public class HomeController {
 
 		model.addAttribute("title", "Home");
 		model.addAttribute("message", "Hello, Spring Boot Application with View Template Engine- Thymeleaf");
-		return "home";
+		//return "home";
+		return "redirect:/link/";
 	}
 	
 	@GetMapping(value="/foo")
@@ -20,5 +21,7 @@ public class HomeController {
 		model.addAttribute("pageTitle", "Foo Page");
 		return "foo";
 	}
+	
+	
 
 }

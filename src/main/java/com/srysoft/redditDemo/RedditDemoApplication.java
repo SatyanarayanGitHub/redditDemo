@@ -2,17 +2,8 @@ package com.srysoft.redditDemo;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
-
-import com.srysoft.redditDemo.model.Comment;
-import com.srysoft.redditDemo.model.Hello;
-import com.srysoft.redditDemo.model.Link;
-import com.srysoft.redditDemo.repository.CommentRepository;
-import com.srysoft.redditDemo.repository.LinkRepository;
-import com.srysoft.redditDemo.service.HomeService;
 
 @SpringBootApplication
 public class RedditDemoApplication {
@@ -24,7 +15,7 @@ public class RedditDemoApplication {
 		SpringApplication.run(RedditDemoApplication.class, args);
 	}
 	
-	
+	/*
 
 	@Bean
 	CommandLineRunner runner(LinkRepository linkRepository, CommentRepository commentRepository, HomeService homeService) {
@@ -53,6 +44,7 @@ public class RedditDemoApplication {
 		};
 	}
 	
+	*/
 	/**
 	 * Reference Link 
 	 * 1. https://github.com/danvega/springit-course-docs 
