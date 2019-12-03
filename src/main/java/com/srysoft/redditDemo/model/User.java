@@ -37,6 +37,8 @@ import lombok.ToString;
 @Entity
 public class User implements UserDetails {
 
+	private static final long serialVersionUID = 5586954822607471468L;
+
 	@Id
 	@GeneratedValue
 	private Long id;
@@ -67,7 +69,8 @@ public class User implements UserDetails {
 		}*/
 
 		// Use Lambda expression
-		authorities = roles.stream().map(role -> new SimpleGrantedAuthority(role.getName())).collect(Collectors.toList());
+		authorities = roles.stream().map(role -> new SimpleGrantedAuthority(role.getName()))
+				.collect(Collectors.toList());
 
 		return authorities;
 	}
@@ -95,5 +98,12 @@ public class User implements UserDetails {
 	@Override
 	public boolean isEnabled() {
 		return enabled;
+	}
+
+	public User(String email, String secret, boolean enable) {
+		this.email = email;
+		this.password = secret;
+		this.enabled = enable;
+
 	}
 }

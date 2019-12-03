@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
@@ -51,7 +52,7 @@ public class Link extends Auditable {
 	 *  one to many - one link has many comments
 	 */
 	@JsonIgnore
-	@OneToMany(mappedBy = "link")
+	@OneToMany(mappedBy = "link", fetch=FetchType.LAZY)
 	private List<Comment> comments = new ArrayList<Comment>();
 	
 	public void addComment(Comment comment) {
