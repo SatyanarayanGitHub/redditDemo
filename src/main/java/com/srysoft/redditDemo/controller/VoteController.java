@@ -22,7 +22,7 @@ public class VoteController {
 	@Autowired
 	private LinkRepository linkRepository;
 	
-	@Secured({"USER"})
+	@Secured({"ROLE_USER"})
 	@GetMapping("/vote/link/{linkId}/direction/{direction}/votecount/{voteCount}")
 	public int vote(@PathVariable Long linkId, @PathVariable short direction, @PathVariable int voteCount) {
 
