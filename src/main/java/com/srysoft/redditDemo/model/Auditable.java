@@ -16,7 +16,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 public abstract class Auditable {
 
 	@CreatedBy
-	private String createBy;
+	private String createdBy;
 
 	@CreatedDate
 	private LocalDateTime createdDate;
@@ -27,12 +27,12 @@ public abstract class Auditable {
 	@LastModifiedDate
 	private LocalDateTime lastModifiedDate;
 
-	public String getCreateBy() {
-		return createBy;
+	public String getCreatedBy() {
+		return createdBy;
 	}
 
-	public void setCreateBy(String createBy) {
-		this.createBy = createBy;
+	public void setCreatedBy(String createdBy) {
+		this.createdBy = createdBy;
 	}
 
 	public LocalDateTime getCreatedDate() {
