@@ -52,7 +52,7 @@ public class User implements UserDetails {
 	@Column(length = 100)
 	private String password;
 
-	@NonNull
+//	@NonNull
 	@Column(nullable = false)
 	private boolean enabled;
 

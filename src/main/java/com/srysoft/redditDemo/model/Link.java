@@ -14,6 +14,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.URL;
 import org.ocpsoft.prettytime.PrettyTime;
@@ -40,41 +41,46 @@ public class Link extends Auditable {
 	private Long id;
 
 	@NonNull
-	@NotEmpty(message="Please enter a title")
+	@NotEmpty(message = "Please enter a title")
 	private String title;
 
 	@NonNull
-	@NotEmpty(message="Please enter a url")
-	@URL(message="Please enter a valid url")
+	@NotEmpty(message = "Please enter a url")
+	@URL(message = "Please enter a valid url")
 	private String url;
 
 	/**
 	 *  one to many - one link has many comments
 	 */
 	@JsonIgnore
-	@OneToMany(mappedBy = "link", fetch=FetchType.LAZY)
+	@OneToMany(mappedBy = "link", fetch = FetchType.LAZY)
 	private List<Comment> comments = new ArrayList<Comment>();
-	
+
+	@OneToMany(mappedBy = "link", fetch = FetchType.LAZY)
+	private List<Vote> votes = new ArrayList<Vote>();
+		
+	private int voteCount = 0;
+
 	public void addComment(Comment comment) {
 		comments.add(comment);
 	}
-	
+
 	@JsonIgnore
 	public String getDomainName() throws URISyntaxException {
-	    URI uri = new URI(this.url);
-	    String domain = uri.getHost();
-	    return domain.startsWith("www.") ? domain.substring(4) : domain;
+		URI uri = new URI(this.url);
+		String domain = uri.getHost();
+		return domain.startsWith("www.") ? domain.substring(4) : domain;
 	}
 
 	@JsonIgnore
-	public String getPrettyTime() {	    
-	    PrettyTime pt = BeanUtil.getBean(PrettyTime.class);
-	    return pt.format(convertToDateViaInstant(getCreatedDate()));
+	public String getPrettyTime() {
+		PrettyTime pt = BeanUtil.getBean(PrettyTime.class);
+		return pt.format(convertToDateViaInstant(getCreatedDate()));
 	}
 
 	@JsonIgnore
 	private Date convertToDateViaInstant(LocalDateTime dateToConvert) {
-	    return java.util.Date.from(dateToConvert.atZone(ZoneId.systemDefault()).toInstant());
+		return java.util.Date.from(dateToConvert.atZone(ZoneId.systemDefault()).toInstant());
 	}
 
 }
