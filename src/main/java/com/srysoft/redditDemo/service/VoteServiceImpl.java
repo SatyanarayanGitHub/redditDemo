@@ -1,8 +1,11 @@
 package com.srysoft.redditDemo.service;
 
+import org.springframework.stereotype.Service;
+
 import com.srysoft.redditDemo.model.Vote;
 import com.srysoft.redditDemo.repository.VoteRepository;
 
+@Service
 public class VoteServiceImpl implements VoteService {
 
 	private VoteRepository voteRepository;

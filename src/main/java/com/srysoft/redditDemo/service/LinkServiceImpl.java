@@ -3,9 +3,12 @@ package com.srysoft.redditDemo.service;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.stereotype.Service;
+
 import com.srysoft.redditDemo.model.Link;
 import com.srysoft.redditDemo.repository.LinkRepository;
 
+@Service
 public class LinkServiceImpl implements LinkService {
 
 	private LinkRepository linkRepository;
