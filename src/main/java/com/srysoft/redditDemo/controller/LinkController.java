@@ -20,33 +20,32 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.srysoft.redditDemo.model.Comment;
 import com.srysoft.redditDemo.model.Link;
 import com.srysoft.redditDemo.repository.CommentRepository;
-import com.srysoft.redditDemo.repository.LinkRepository;
+import com.srysoft.redditDemo.service.LinkService;
 
 @RequestMapping("/link")
 @Controller
 public class LinkController {
 
 	private static final Logger logger = LoggerFactory.getLogger(LinkController.class);
-	private LinkRepository linkRepository;
+	private LinkService linkService;
 
 	@Autowired
 	private CommentRepository commentRepository;
 
-	public LinkController(LinkRepository linkRepository) {
+	public LinkController(LinkService linkService) {
 		logger.info("==>> Link Controller");
-		this.linkRepository = linkRepository;
+		this.linkService = linkService;
 	}
 
-	//list
 	@GetMapping("/")
 	public String lists(Model model) {
-		model.addAttribute("links", linkRepository.findAll());
+		model.addAttribute("links", linkService.findAllLinks());
 		return "link/list";
 	}
 
 	@GetMapping("/{id}")
 	public String read(@PathVariable Long id, Model model) {
-		Optional<Link> link = linkRepository.findById(id);
+		Optional<Link> link = linkService.findByIdLink(id);
 
 		if (link.isPresent()) {
 			Link currentLink = link.get();
@@ -81,7 +80,7 @@ public class LinkController {
 			return "link/submit";
 		} else {
 			//save our link
-			linkRepository.save(link);
+			linkService.saveLink(link);
 			logger.info("==>> New link was saved successfully.");
 			redirectAttributes.addAttribute("id", link.getId()).addFlashAttribute("success", true);
 

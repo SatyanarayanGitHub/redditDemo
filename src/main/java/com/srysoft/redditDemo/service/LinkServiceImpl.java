@@ -1,0 +1,35 @@
+package com.srysoft.redditDemo.service;
+
+import java.util.List;
+import java.util.Optional;
+
+import com.srysoft.redditDemo.model.Link;
+import com.srysoft.redditDemo.repository.LinkRepository;
+
+public class LinkServiceImpl implements LinkService {
+
+	private LinkRepository linkRepository;
+
+	public LinkServiceImpl(LinkRepository linkRepository) {
+		this.linkRepository = linkRepository;
+	}
+
+	@Override
+	public List<Link> findAllLinks() {
+		return linkRepository.findAll();
+	}
+
+	@Override
+	public Optional<Link> findByIdLink(Long id) {
+		//return linkRepository.findById(id);
+		
+		return null;
+	}
+
+	@Override
+	public Link saveLink(Link link) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}
