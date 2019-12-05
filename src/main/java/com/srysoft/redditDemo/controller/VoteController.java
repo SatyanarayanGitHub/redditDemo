@@ -10,32 +10,32 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.srysoft.redditDemo.model.Link;
 import com.srysoft.redditDemo.model.Vote;
-import com.srysoft.redditDemo.repository.LinkRepository;
-import com.srysoft.redditDemo.repository.VoteRepository;
+import com.srysoft.redditDemo.service.LinkService;
+import com.srysoft.redditDemo.service.VoteService;
 
 @RestController
 public class VoteController {
 	
 	@Autowired
-	private VoteRepository voteRepository;
+	private VoteService voteService;
 	
 	@Autowired
-	private LinkRepository linkRepository;
+	private LinkService linkService;
 	
 	@Secured({"ROLE_USER"})
 	@GetMapping("/vote/link/{linkId}/direction/{direction}/votecount/{voteCount}")
 	public int vote(@PathVariable Long linkId, @PathVariable short direction, @PathVariable int voteCount) {
 
-		Optional<Link> optionalLinks = linkRepository.findById(linkId);
+		Optional<Link> optionalLinks = linkService.findByIdLink(linkId);
 		
 		if(optionalLinks.isPresent()) {
 			Link link = optionalLinks.get();
 			Vote vote = new Vote(direction, link);			
-			voteRepository.save(vote);
+			voteService.saveVote(vote);
 			
 			int updatedVoteCount = voteCount + direction;
 			link.setVoteCount(updatedVoteCount);
-			linkRepository.save(link);
+			linkService.saveLink(link);
 			
 			return updatedVoteCount;
 		}		

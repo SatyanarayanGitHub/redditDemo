@@ -19,7 +19,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.srysoft.redditDemo.model.Comment;
 import com.srysoft.redditDemo.model.Link;
-import com.srysoft.redditDemo.repository.CommentRepository;
+import com.srysoft.redditDemo.service.CommentService;
 import com.srysoft.redditDemo.service.LinkService;
 
 @RequestMapping("/link")
@@ -30,7 +30,7 @@ public class LinkController {
 	private LinkService linkService;
 
 	@Autowired
-	private CommentRepository commentRepository;
+	private CommentService commentService;
 
 	public LinkController(LinkService linkService) {
 		logger.info("==>> Link Controller");
@@ -98,7 +98,7 @@ public class LinkController {
 		if (bindingResult.hasErrors()) {
 			logger.info("==>> There was a problem adding a new comment.");
 		} else {
-			commentRepository.save(comment);
+			comment = commentService.saveComment(comment);
 			logger.info("==>> New comment was saved successfully.");
 
 			redirectAttributes.addAttribute("commentId", comment.getId()).addFlashAttribute("commentsuccess", true);
