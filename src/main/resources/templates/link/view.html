@@ -1,18 +1,23 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
 <head th:replace="~{layouts/main_layout :: head(title = 'Comments')}">
 </head>
+
 <body>
-	<nav th:replace="~{layouts/main_layout :: nav}"></nav>
-	<div th:replace="~{layouts/main_layout :: jumbotron}"></div>
-	
-	<div class="container">
-	
-		<div class="alert alert-success" role="alert" th:if=${success}>
-			Your new link was created!!		
-		</div>
-	
-		<!-- link -->
+    <nav th:replace="~{layouts/main_layout :: nav}"></nav>
+    <div th:replace="~{layouts/main_layout :: jumbotron}"></div>
+
+    <div class="container">
+
+        <div class="alert alert-success" role="alert" th:if="${success}">
+            Your new link was created!!
+        </div>
+        <div class="alert alert-success" role="alert" th:if="${commentsuccess}">
+            Your new comment was added!!
+        </div>
+
+        <!-- link -->
         <div class="row link">
             <div class="col-1">
                 <div><a href="#" class="upvote"><i class="fas fa-arrow-up"></i></a></div>
@@ -24,10 +29,11 @@
                     <a class="title" th:href="${link.url}" th:text="${link.title}" target="_blank">
                         What's new in Spring Boot 2?
                     </a>
-                    <span class="domain">(<a th:href="${link.url}" th:text="${link.getDomainName()}">therealdanvega.com</a>)</span>                    
+                    <span class="domain">(<a th:href="${link.url}" th:text="${link.getDomainName()}">myDomain.com</a>)</span>
                 </p>
                 <p class="tagline ">submitted at
-                    <time th:title="${link.getCreatedDate()}" th:datetime="${link.getCreatedDate()}" class="live-timestamp" th:text="${link.getPrettyTime()}">2 hour(s) ago</time> by 
+                    <time th:title="${link.getCreatedDate()}" th:datetime="${link.getCreatedDate()}"
+                        class="live-timestamp" th:text="${link.getPrettyTime()}">2 hour(s) ago</time> by
                     <a href="/" class="author" th:text="${link.createdBy}">Satyanarayan</a>
 
 
@@ -40,39 +46,50 @@
                 </p>
             </div>
         </div>
-	
-		<!-- link comments -->         
+
+        <!-- link comments -->
         <div class="comments">
             <div class="row header">
                 <div class="col-1">&nbsp;</div>
                 <div class="col-11 title" th:text="|all ${link.getComments().size()} comments|">
-                    all 21 comments
+                    all 0 comments
                 </div>
             </div>
-            <div class="row addcomment">
+
+            <div class="row addcomment" sec:authorize="hasRole('ROLE_USER')">
                 <div class="col-1">&nbsp;</div>
                 <div class="col-11">
-                    <div class="form-group">
-                        <textarea class="form-control" id="comment" rows="3"></textarea>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Add Comment</button>
+                    <form id="frmAddComment" method="POST" th:action="@{/link/comments}" th:object="${comment}">
+                        <input type="hidden" th:field="*{link}"/>
+                        <div class="form-group">
+                            <textarea class="form-control" id="comment" rows="3" th:field="*{body}"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Add Comment</button>
+                    </form>
                 </div>
             </div>
-            
-            <!-- single comment -->             
+
+            <!-- single comment -->
             <div class="row comment" th:each="comment: ${link.getComments()}">
                 <div class="col-1">&nbsp;</div>
                 <div class="col-11">
-                    <span><a href="#" th:text="${comment.getCreatedBy()}"><i class="far fa-user"></i> Satyanarayan</a></span>
+                    <span><a href="#" th:text="${comment.getCreatedBy()}"><i class="far fa-user"></i>
+                            Satyanarayan</a></span>
                     <span th:text="${comment.getPrettyTime()}"><i class="far fa-clock"></i> 4 hours ago</span>
-                    <p class="body" th:text="${comment.getBody()}">It’s one thing I never care about, new releases of maven. Yet I do for most other things.. I really should take a look at any features released in the last while! Pull my dependencies, run my tests and upload to nexus. I don’t care for much else, I wonder what if any I’m missing.</p>
+                    <p class="body" th:text="${comment.getBody()}">It’s one thing I never care about, new releases of
+                        maven. Yet I do for most other things.. I really should take a look at any features released in
+                        the last while! Pull my dependencies, run my tests and upload to nexus. I don’t care for much
+                        else, I wonder what if any I’m missing.</p>
                     <a href="#" class="permalink"><i class="fas fa-link"></i> permalink</a>
                     <a href="#" class="like"><i class="far fa-thumbs-up"></i> Like</a>
                 </div>
             </div>
 
         </div>
-	</div>
-        	
+    </div>
+
+    <br><br>
+
 </body>
+
 </html>

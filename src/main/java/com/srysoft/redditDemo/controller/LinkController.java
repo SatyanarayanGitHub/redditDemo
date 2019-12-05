@@ -6,6 +6,8 @@ import javax.validation.Valid;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -15,7 +17,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.srysoft.redditDemo.model.Comment;
 import com.srysoft.redditDemo.model.Link;
+import com.srysoft.redditDemo.repository.CommentRepository;
 import com.srysoft.redditDemo.repository.LinkRepository;
 
 @RequestMapping("/link")
@@ -24,6 +28,9 @@ public class LinkController {
 
 	private static final Logger logger = LoggerFactory.getLogger(LinkController.class);
 	private LinkRepository linkRepository;
+
+	@Autowired
+	private CommentRepository commentRepository;
 
 	public LinkController(LinkRepository linkRepository) {
 		logger.info("==>> Link Controller");
@@ -42,6 +49,11 @@ public class LinkController {
 		Optional<Link> link = linkRepository.findById(id);
 
 		if (link.isPresent()) {
+			Link currentLink = link.get();
+			Comment comment = new Comment();
+			comment.setLink(currentLink);
+			model.addAttribute("comment", comment);
+
 			model.addAttribute("link", link.get());
 			model.addAttribute("success", model.containsAttribute("success"));
 
@@ -70,12 +82,29 @@ public class LinkController {
 		} else {
 			//save our link
 			linkRepository.save(link);
-			logger.info("==>> New link was saved successfully");
+			logger.info("==>> New link was saved successfully.");
 			redirectAttributes.addAttribute("id", link.getId()).addFlashAttribute("success", true);
 
 			return "redirect:/link/{id}";
 
 		}
 		//return "link/submit";
+	}
+
+	@Secured({ "ROLE_USER" })
+	@PostMapping("/comments")
+	public String addComment(@Valid Comment comment, BindingResult bindingResult, Model model,
+			RedirectAttributes redirectAttributes) {
+
+		if (bindingResult.hasErrors()) {
+			logger.info("==>> There was a problem adding a new comment.");
+		} else {
+			commentRepository.save(comment);
+			logger.info("==>> New comment was saved successfully.");
+
+			redirectAttributes.addAttribute("commentId", comment.getId()).addFlashAttribute("commentsuccess", true);
+		}
+
+		return "redirect:/link/" + comment.getLink().getId();
 	}
 }
