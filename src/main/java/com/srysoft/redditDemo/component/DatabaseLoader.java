@@ -9,6 +9,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import com.srysoft.redditDemo.model.Comment;
 import com.srysoft.redditDemo.model.Link;
 import com.srysoft.redditDemo.model.Role;
 import com.srysoft.redditDemo.model.User;
@@ -67,8 +68,21 @@ public class DatabaseLoader implements CommandLineRunner {
 				"https://www.jeejava.com/file-download-example-using-spring-rest-controller/");
 
 		links.forEach((k, v) -> {
-			linkRepository.save(new Link(k, v));
-			// we will do something with comments later
+			
+			Link link = new Link(k,v);
+		    linkRepository.save(link);
+			
+		    // Add some comment to each link
+			Comment spring = new Comment("Thank you for this link related to Spring Boot. I love it, great post!",
+					link);
+			Comment security = new Comment("I love that you're talking about Spring Security", link);
+			Comment pwa = new Comment("What is this Progressive Web App thing all about? PWAs sound really cool.",
+					link);
+			Comment comments[] = { spring, security, pwa };
+			for (Comment comment : comments) {
+				commentRepository.save(comment);
+				link.addComment(comment);
+			}
 		});
 
 		long linkCount = linkRepository.count();
@@ -89,14 +103,14 @@ public class DatabaseLoader implements CommandLineRunner {
 		User user = new User("user@gmail.com", secret, true);
 		user.addRole(userRole);
 		userRepository.save(user);
-		
-		User admin = new User("admin@gmail.com",secret,true);
-	    admin.addRole(adminRole);
-	    userRepository.save(admin);
 
-	    User master = new User("super@gmail.com",secret,true);
-	    master.addRoles(new HashSet<>(Arrays.asList(userRole,adminRole)));
-	    userRepository.save(master);
+		User admin = new User("admin@gmail.com", secret, true);
+		admin.addRole(adminRole);
+		userRepository.save(admin);
+
+		User master = new User("super@gmail.com", secret, true);
+		master.addRoles(new HashSet<>(Arrays.asList(userRole, adminRole)));
+		userRepository.save(master);
 
 	}
 
