@@ -34,7 +34,7 @@
                 <p class="tagline ">submitted at
                     <time th:title="${link.getCreatedDate()}" th:datetime="${link.getCreatedDate()}"
                         class="live-timestamp" th:text="${link.getPrettyTime()}">2 hour(s) ago</time> by
-                    <a href="/" class="author" th:text="${link.createdBy}">Satyanarayan</a>
+                    <a th:href="@{'/u/' + ${link.getUser().getFullName()}}" class="author" th:text="${link.getUser().getFullName()}">Satyanarayan</a>
 
 
                     <span class="userattrs"></span>
