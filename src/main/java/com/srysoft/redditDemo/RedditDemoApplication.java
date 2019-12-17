@@ -19,13 +19,24 @@ public class RedditDemoApplication {
 		log.info("==>> Application Start!!");
 		SpringApplication.run(RedditDemoApplication.class, args);
 	}
+
+	/*
+	@Component Preferable for component scanning and automatic wiring.
 	
+	When should you use @Bean?
+	Sometimes automatic configuration is not an option. When? Let's imagine that you want to wire components from 3rd-party libraries 
+	(you don't have the source code so you can't annotate its classes with @Component), so automatic configuration is not possible.
+	
+	The @Bean annotation returns an object that spring should register as bean in application context. The body of the method bears 
+	the logic responsible for creating the instance.
+	
+	Reference: https://stackoverflow.com/questions/10604298/spring-component-versus-bean
+	*/
 	@Bean
 	PrettyTime prettyTime() {
 		return new PrettyTime();
 	}
 
-	
 	// TODO * Configuring this bean should not be needed once Spring Boot's Thymeleaf starter includes configuration
 	// TODO   for thymeleaf-extras-springsecurity5 (instead of thymeleaf-extras-springsecurity4)
 	@Bean
