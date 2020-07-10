@@ -61,6 +61,9 @@ public class User implements UserDetails {
 	@Transient
 	@NotEmpty(message = "Please enter Password Confirmation")
 	private String confirmPassword;
+	
+	
+	private String activationCode;
 
 	//	@NonNull
 	@Column(nullable = false)

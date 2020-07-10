@@ -1,6 +1,7 @@
 package com.srysoft.redditDemo.service;
 
 import java.util.Optional;
+import java.util.UUID;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,8 +26,11 @@ public class UserServiceImpl implements UserService {
 
 	private final BCryptPasswordEncoder encoder;
 
-	public UserServiceImpl(RoleService roleService) {
+	private final MailService mailService;
+
+	public UserServiceImpl(RoleService roleService, MailService mailService) {
 		this.roleService = roleService;
+		this.mailService = mailService;
 		encoder = new BCryptPasswordEncoder();
 	}
 
@@ -44,6 +48,7 @@ public class UserServiceImpl implements UserService {
 		user.addRole(roleService.findByName("ROLE_USER"));
 
 		// TODO 3. set an activation code
+		user.setActivationCode(UUID.randomUUID().toString());
 
 		// TODO 4. disable the user
 
@@ -51,8 +56,9 @@ public class UserServiceImpl implements UserService {
 		saveUser(user);
 
 		// TODO 6. send the activation email
+		sendActivationEmail(user);
 
-		return userRepository.save(user);
+		return user;
 	}
 
 	@Override
@@ -81,7 +87,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	public void sendActivationEmail(User user) {
-		// TODO - send Activation Email code ...
+		this.mailService.sendActivationEmail(user);
 	}
 
 }
