@@ -37,6 +37,9 @@ public class UserServiceImpl implements UserService {
 		String secret = "{bcrypt}" + encoder.encode(user.getPassword());
 		user.setPassword(secret);
 
+		// TODO 1.1 set confirm password
+		user.setConfirmPassword(secret);
+
 		// TODO 2. assign a role to this user
 		user.addRole(roleService.findByName("ROLE_USER"));
 

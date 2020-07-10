@@ -24,6 +24,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.srysoft.redditDemo.validator.PasswordMatch;
+
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -38,6 +40,7 @@ import lombok.ToString;
 @Setter
 @ToString
 @Entity
+@PasswordMatch
 public class User implements UserDetails {
 
 	private static final long serialVersionUID = 5586954822607471468L;
