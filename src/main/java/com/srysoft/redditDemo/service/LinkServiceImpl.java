@@ -24,15 +24,12 @@ public class LinkServiceImpl implements LinkService {
 
 	@Override
 	public Optional<Link> findByIdLink(Long id) {
-		//return linkRepository.findById(id);
-		
-		return null;
+		return linkRepository.findById(id);		
 	}
 
 	@Override
 	public Link saveLink(Link link) {
-		// TODO Auto-generated method stub
-		return null;
+		return linkRepository.save(link);
 	}
 
 }
