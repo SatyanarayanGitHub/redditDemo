@@ -56,7 +56,7 @@ public class UserServiceImpl implements UserService {
 		saveUser(user);
 
 		// TODO 6. send the activation email
-		sendActivationEmail(user);
+		this.sendActivationEmail(user);
 
 		return user;
 	}
@@ -86,8 +86,19 @@ public class UserServiceImpl implements UserService {
 		return userRepository.findByEmail(email);
 	}
 
+	@Override
+	public Optional<User> findByEmailAndActivationCode(String email, String activationCode) {
+		return userRepository.findByEmailAndActivationCode(email, activationCode);
+	}
+
+	@Override
 	public void sendActivationEmail(User user) {
 		this.mailService.sendActivationEmail(user);
+	}
+
+	@Override
+	public void sendWelcomeEmail(User user) {
+		this.mailService.sendWelcomeEmail(user);
 	}
 
 }
