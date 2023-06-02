@@ -50,22 +50,23 @@ public class User implements UserDetails {
 	private Long id;
 
 	@NotNull
-	@Size(min = 8, max = 20)
+	@Size(min = 8, max = 20, message = "Email length must be between {min} and {max}")
 	@Column(nullable = false, unique = true)
+	@NotEmpty(message = "Please enter Email")
 	private String email;
 
 	@NonNull
 	@Column(length = 100)
+	@NotEmpty(message = "Please enter Password")
 	private String password;
 	
 	@Transient
-	@NotEmpty(message = "Please enter Password Confirmation")
+	@NotEmpty(message = "Please enter Confirmation Password")
 	private String confirmPassword;
 	
 	
 	private String activationCode;
 
-	//	@NonNull
 	@Column(nullable = false)
 	private boolean enabled;
 
@@ -162,6 +163,4 @@ public class User implements UserDetails {
 		this.alias = alias;
 	}
 	
-	
-
 }

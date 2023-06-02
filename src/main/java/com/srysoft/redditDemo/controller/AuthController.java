@@ -56,7 +56,7 @@ public class AuthController {
 			User newUser = userService.register(user);
 			redirectAttributes.addAttribute("id", newUser.getId());
 			redirectAttributes.addFlashAttribute("success", true);
-
+			
 			return "redirect:/register";
 		}
 	}
